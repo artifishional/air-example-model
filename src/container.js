@@ -1,5 +1,5 @@
 import {forEachFromData} from "./utils"
-import {Loader, Error} from "m2"
+import {Loader, MError} from "m2"
 
 /**
  * Органайзер списка
@@ -38,7 +38,7 @@ export default function container({scheme, stream, signature}) {
                 if(!loader.isLoad) {
                     loader.onload.off(onload);
                     loader.onload.on(onload);
-                    return new Error({ type: "MODULE_NOT_READY", event: loader.onload });
+                    return new MError({ type: "MODULE_NOT_READY", event: loader.onload });
                 }
                 emt.emit(data);
             });
