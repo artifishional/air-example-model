@@ -1,0 +1,9 @@
+{
+  "name": "main",
+  "req": "2.0.0",
+  "ver": "0.1.0",
+  "content": [{
+    "type": "source",
+    "path": "index.js"
+  }]
+}
