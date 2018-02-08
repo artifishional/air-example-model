@@ -56,8 +56,8 @@ export default function container({scheme, stream, signature}) {
 
 }
 
+function getModule(signature, plugs) {
 
-/**
- * stream
- * {type: "reinit", data: [ signature ]}
+}
+* {type: "reinit", data: [ signature ]}
  */
