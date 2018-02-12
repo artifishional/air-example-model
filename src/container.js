@@ -81,7 +81,6 @@ export default function container({scheme, stream, signature}) {
 
                 );
 
-
                 emt.emit(data);
             });
 
