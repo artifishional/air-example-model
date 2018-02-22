@@ -5,6 +5,7 @@ export default (cb, args) => {
         cb();
     }
 
+
 }
 
 //событие
