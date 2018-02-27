@@ -14,6 +14,8 @@ export default class List extends Observable {
 
                         const res = {};
 
+                        //decorator for every Observable ?
+
                         res.main = new Observable( (emt) => {
 
                             const res = this.creators.find( creator => creator({data: x, stream}) )({data: x, stream});
