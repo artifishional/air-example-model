@@ -1,6 +1,7 @@
 import path from "path"
 import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import pack from "./package.json"
+import CopyWebpackPlugin from "copy-webpack-plugin"
 
 const filename = "main.js";
 
@@ -23,11 +24,20 @@ export default {
   },
   plugins: [
 
+      new CopyWebpackPlugin([
+          { from: './res', to: './res' },
+      ], {
+          copyUnmodified: true
+      }),
+
       new GenerateJsonPlugin('res.json', {
           version: pack.version,
           name: pack.name,
           main: filename
       }),
 
-  ]
+  ],
+
+    watch: true
+
 };
