@@ -14,7 +14,10 @@ export default function ({conf, env, stream}) {
 
     //затем этот объект мержится с текущим env
     return {
-        main, list
+        //minimal path
+        main,
+        //nested path
+        from: { list }
     }
 
 }

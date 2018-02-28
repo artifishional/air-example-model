@@ -1,31 +1,31 @@
 import {Observable} from "air-stream"
+import Advantages from "./advantages";
+
+function findAdnGet( arr, cb ) {
+    let res = null;
+    for(let i = 0; i < arr.length && !res; i++ ) {
+        res = cb( arr[i], i, arr );
+    }
+    return res;
+}
 
 export default class List extends Observable {
 
-    constructor( { stream } ) {
-        super( function (emt) {
+    constructor( { stream, parent } ) {
+        super( emt => {
             stream.on( ({type, list, ...args }) => {
                 if(type === "reinit") {
-                    emt.emit({ type, list: list.map( x => {
+                    emt.emit({ type, list: list.map( data => {
 
                         //todo need cache
                         //todo need overloop
+
+                        const res = new Advantages( {parent} );
+
                         //todo need lazy init
+                        res.reg( findAdnGet(this.creators, {data, stream}));
 
-                        const res = {};
-
-                        //decorator for every Observable ?
-
-                        res.main = new Observable( (emt) => {
-
-                            const res = this.creators.find( creator => creator({data: x, stream}) )({data: x, stream});
-                            const {main} = res;
-
-                            return main.on( (data) => {
-                                emt.emit(data);
-                            } );
-
-                        } );
+                        this.advantages.push( res );
 
                         return res;
 
@@ -39,6 +39,11 @@ export default class List extends Observable {
             } );
         } );
         this.creators = [];
+    }
+
+    reg(some) {
+        this.creators.push( some );
+        this.advantages.forEach(  );
     }
 
 }
