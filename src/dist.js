@@ -1,9 +1,10 @@
 import {Observable} from "air-stream"
 
+import Advantages from "./advantages"
 import List from "./list";
 
 
-
+/*
 const list = new List( {stream: new Observable( function (emt) {
 
     setTimeout( () => emt.emit( {type: "reinit", list: [{a: 10}, {b: 20}] } ), 1000 );
@@ -23,4 +24,12 @@ list.on( function ({ list }) {
         console.log(data);
     } );
 
+} );*/
+
+
+
+const advantages = new Advantages( );
+
+advantages.obtain([{path: "advanced1"}])[0].on( function (evt) {
+    console.log(evt);
 } );

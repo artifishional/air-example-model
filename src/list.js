@@ -1,7 +1,7 @@
 import {Observable} from "air-stream"
 import Advantages from "./advantages";
 
-function findAdnGet( arr, cb ) {
+function findAndGet( arr, cb ) {
     let res = null;
     for(let i = 0; i < arr.length && !res; i++ ) {
         res = cb( arr[i], i, arr );
@@ -23,7 +23,7 @@ export default class List extends Observable {
                         const res = new Advantages( {parent} );
 
                         //todo need lazy init
-                        res.reg( findAdnGet(this.creators, {data, stream}));
+                        res.reg( findAndGet(this.creators, {data, stream}));
 
                         this.advantages.push( res );
 

@@ -1,4 +1,5 @@
 import {Observable} from "air-stream"
+import Loader from "./loader"
 
 function getObservables(store, _path = []) {
     const res = [];
@@ -16,9 +17,10 @@ function getObservables(store, _path = []) {
 
 export default class Advantages {
 
-    constructor({ parent }) {
+    constructor({ parent = null, loader = Loader.default } = {}) {
         this.parent = parent;
         this.item = [];
+        this.loader = loader;
     }
 
     /**
@@ -27,52 +29,31 @@ export default class Advantages {
      */
     reg(store) {
 
-        const advantages = getObservables(store);
+        getObservables(store).map( observable => {
 
+            const exist = this.item.find( ({path}) => path === _path );
 
-        advantages.map(  );
+            //Если уже успел вернуть заглушку для потока
+            //То для нее должен был быть зарегестрирован эмиттер
 
-        const exist = this.item.find( ({path}) => path === _path );
+            if(exist) {
 
-        //Если уже успел вернуть заглушку для потока
-
-        if(exist) {
-
-
-            const emt =
-
-            advantage.on( (evt) => {
-                emt.emit(evt);
-            } );
-
-            //тогда для него сущесвует эмитер
-
-
-            //decorator for every Observable ?
-
-            res.main = new Observable( (emt) => {
-
-                const res = this.creators.find( creator => creator({data: x, stream}) )({data: x, stream});
-                const {main} = res;
-
-                return main.on( (data) => {
-                    emt.emit(data);
+                const unobs = observable.on( (evt) => {
+                    exist.emt.emit(evt);
                 } );
 
-            } );
+            }
+            else {
+                this.item.push( {path, observable} );
 
-        }
-        else {
-            this.item.push( {path, advantage} );
+            }
 
-
-
-        }
+        } );
 
 
     }
 
-    $(advantages) {
+    obtain(advantages) {
 
         //создаем пустой обсервер
         return advantages.map( ({path}) => {
@@ -85,15 +66,19 @@ export default class Advantages {
 
             else {
 
-                return new Observable( (emt) => {
+                const observable = new Observable( (emt) => {
 
-                    this.emts.push( {path, emt} );
-                    
-                    return () => {
-                        this.emts.remove({path, emt});
-                    }
+                    this.loader.obtain({src: this, path}).on( (evt) => {
 
-                } )
+                        emt.emit(evt);
+
+                    } );
+
+                } );
+
+                this.item.push( {path, observable} );
+
+                return observable;
 
             }
 
@@ -103,4 +88,34 @@ export default class Advantages {
 }
 
 
-advantages.$( [ "some", {path: "./some"} ] );
+/*
+const advantages = new Advantages();
+
+advantages.obtain( ["main", some: ["path2"]] ); //=> { main: Observable, some: { path2: Observable } }
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

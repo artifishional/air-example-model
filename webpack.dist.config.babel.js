@@ -14,18 +14,27 @@ export default {
       path: path.resolve(__dirname, './dist/'),
       filename,
   },
-  module: {
-      loaders:[
-          { test: /\.js$/, /*exclude: /node_modules/,*/ loader: "babel-loader" }
-      ],
-  },
   externals: {
     m_2: "M2"
   },
+
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: [/node_modules/, /\.loader$/],
+                use: {
+                    loader: "babel-loader"
+                }
+            }
+        ]
+    },
+
   plugins: [
 
       new CopyWebpackPlugin([
           { from: './res', to: './res' },
+          { from: './src/modules', to: './' },
       ], {
           copyUnmodified: true
       }),
