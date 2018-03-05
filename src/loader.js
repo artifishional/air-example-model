@@ -2,13 +2,17 @@ import {Observable} from "air-stream"
 
 export default class Loader {
 
-    obtain({src, path}) {
+    obtain({advantages, path}) {
 
-        return new Observable( evt => {
+        return new Observable( emt => {
 
             eval(`import("./${path}.js")`).then( function (module) {
 
-                console.log(module.default.some);
+                module.default( {advantages} ).on( function (evt) {
+
+                    emt.emit(evt);
+
+                } );
 
             } );
 

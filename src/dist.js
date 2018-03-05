@@ -1,5 +1,8 @@
 import {Observable} from "air-stream"
 
+//fixme (only for debug)
+window.Observable = Observable;
+
 import Advantages from "./advantages"
 import List from "./list";
 

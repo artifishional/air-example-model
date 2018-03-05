@@ -23,65 +23,10 @@ export default class Advantages {
         this.loader = loader;
     }
 
-    /**
-     *
-     * @param {Object} store nested store of advantages
-     */
-    reg(store) {
-
-        getObservables(store).map( observable => {
-
-            const exist = this.item.find( ({path}) => path === _path );
-
-            //Если уже успел вернуть заглушку для потока
-            //То для нее должен был быть зарегестрирован эмиттер
-
-            if(exist) {
-
-                const unobs = observable.on( (evt) => {
-                    exist.emt.emit(evt);
-                } );
-
-            }
-            else {
-                this.item.push( {path, observable} );
-
-            }
-
-        } );
-
-
-    }
-
     obtain(advantages) {
-
         //создаем пустой обсервер
         return advantages.map( ({path}) => {
-
-            const exist = this.item.find( ({path: _path}) => path === _path );
-
-            if(exist) {
-                return exist;
-            }
-
-            else {
-
-                const observable = new Observable( (emt) => {
-
-                    this.loader.obtain({src: this, path}).on( (evt) => {
-
-                        emt.emit(evt);
-
-                    } );
-
-                } );
-
-                this.item.push( {path, observable} );
-
-                return observable;
-
-            }
-
+            return this.loader.obtain({src: this, path});
         } );
     }
 
@@ -94,28 +39,3 @@ const advantages = new Advantages();
 advantages.obtain( ["main", some: ["path2"]] ); //=> { main: Observable, some: { path2: Observable } }
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
