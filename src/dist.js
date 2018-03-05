@@ -33,6 +33,6 @@ list.on( function ({ list }) {
 
 const advantages = new Advantages( );
 
-advantages.obtain([{path: "advanced1"}])[0].on( function (evt) {
+advantages.obtain([{path: "advanced1", some: 10}])[0].on( function (evt) {
     console.log(evt);
 } );

@@ -25,9 +25,9 @@ export default class Advantages {
 
     obtain(advantages) {
         //создаем пустой обсервер
-        return advantages.map( ({path}) => {
-            return this.loader.obtain({src: this, path});
-        } );
+        return advantages.map( ({path, name, ...args}) =>
+            this.loader.obtain({src: this, path, name, ...args})
+        );
     }
 
 }

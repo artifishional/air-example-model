@@ -2,22 +2,23 @@ import {Observable} from "air-stream"
 
 export default class Loader {
 
-    obtain({advantages, path}) {
+    constructor() {
+        this.modules = [];
+    }
 
-        return new Observable( emt => {
-
-            eval(`import("./${path}.js")`).then( function (module) {
-
-                module.default( {advantages} ).on( function (evt) {
-
-                    emt.emit(evt);
-
+    obtain({advantages, path, name = "default", ...args}) {
+        const exist = this.modules.find( ({ path: _path }) => path === _path );
+        if(exist) {
+            return exist.module[name]( {advantages, ...args} );
+        }
+        else {
+            return new Observable( emt => {
+                eval(`import("./${path}.js")`).then( module => {
+                    this.modules.push({module, path});
+                    module[name]( {advantages, ...args} ).on( evt => emt.emit(evt));
                 } );
-
             } );
-
-        } );
-
+        }
     }
 
     static default = new Loader();
