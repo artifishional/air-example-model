@@ -29,10 +29,31 @@ list.on( function ({ list }) {
 
 } );*/
 
-
+/*
 
 const advantages = new Advantages( );
 
-advantages.obtain([{path: "advanced1", some: 10}])[0].on( function (evt) {
+advantages.obtain([{ source: {path: "./advanced1"}, some: 77}])[0].on( function (evt) {
+    console.log(evt);
+} );
+*/
+
+
+const advantages = new Advantages( { schema:
+        [ "main",
+            [ "state",
+                [ {type: "loto20_80"}, { source: {path: "./state.js", name: "loto20_80"} } ]
+            ],
+            [ "session",
+                [ "games",
+                    [ {name: "keno"}, {path: "./keno.js"} ],
+                ],
+                [ "gs", { source: { path: "./switch.js" }} ]
+            ],
+        ]
+} );
+
+
+advantages.obtain([{route: ["main", "session", "games", {name: "keno"}]}])[0].on( function (evt) {
     console.log(evt);
 } );

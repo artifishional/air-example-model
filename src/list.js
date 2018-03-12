@@ -34,7 +34,7 @@ export default class List extends Observable {
                 }
                 //todo need rework
                 else if(type === "add") {
-                    emt.emit({ type, list: list.map( x => this.creators.find( creator => creator(x) )(x)), ...args});
+                 
                 }
             } );
         } );

@@ -17,17 +17,32 @@ function getObservables(store, _path = []) {
 
 export default class Advantages {
 
-    constructor({ parent = null, loader = Loader.default } = {}) {
+    constructor({
+                    source = null,
+                    parent = null,
+                    loader = Loader.default,
+                    schema
+    } = {}) {
         this.parent = parent;
         this.item = [];
         this.loader = loader;
+        this.source = source;
     }
 
     obtain(advantages) {
         //создаем пустой обсервер
-        return advantages.map( ({path, name, ...args}) =>
-            this.loader.obtain({src: this, path, name, ...args})
-        );
+        return advantages.map( ({source, ...args}) => {
+
+            advantages.
+
+            this.loader.obtain({src: this, source, ...args});
+
+
+        });
+    }
+
+    build(schema) {
+
     }
 
 }
