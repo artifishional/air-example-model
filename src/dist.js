@@ -45,8 +45,9 @@ const advantages = Advantages.create( { schema:
                 [ {type: "loto20_80"}, { source: {path: "./state.js", name: "loto20_80"} } ]
             ],
             [ "session",
-                [ "games",
-                    [ {name: "keno"}, {path: "./keno.js"} ],
+                [ "games", {type: "container"},
+                    [ {name: "keno"}, {source: { path: "./keno.js"}} ],
+                    [ {name: "lucky"}, {source: { path: "./lucky.js"}} ],
                 ],
                 [ "gs", { source: { path: "./switch.js" }} ]
             ],
