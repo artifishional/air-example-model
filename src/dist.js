@@ -3,7 +3,7 @@ import {Observable} from "air-stream"
 //fixme (only for debug)
 window.Observable = Observable;
 
-import Advantages from "./advantages"
+import Advantages from "./advantages/index"
 import List from "./list";
 
 
@@ -39,7 +39,7 @@ advantages.obtain([{ source: {path: "./advanced1"}, some: 77}])[0].on( function 
 */
 
 
-const advantages = new Advantages( { schema:
+const advantages = Advantages.create( { schema:
         [ "main",
             [ "state",
                 [ {type: "loto20_80"}, { source: {path: "./state.js", name: "loto20_80"} } ]
@@ -54,6 +54,13 @@ const advantages = new Advantages( { schema:
 } );
 
 
-advantages.obtain([{route: ["main", "session", "games", {name: "keno"}]}])[0].on( function (evt) {
-    console.log(evt);
+setTimeout( () => {
+
+
+    const [keno] = advantages.obtain({route: [ "session", "games", {name: "keno"}]});
+
+    keno.on( evt => console.log(evt) );
+
 } );
+
+

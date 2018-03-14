@@ -28,9 +28,9 @@ export default function container({scheme, stream, signature}) {
         //проверить кеш, если нет, то пройтись по плагинам
         plugs.reduce(  (prev, next)  => next( rscheme, stream, signature ) , {});
 
-        if() {
+        /*if() {
 
-        }
+        }*/
 
     }
 

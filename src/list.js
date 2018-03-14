@@ -1,5 +1,5 @@
 import {Observable} from "air-stream"
-import Advantages from "./advantages";
+import Advantages from "./advantages/index";
 
 function findAndGet( arr, cb ) {
     let res = null;

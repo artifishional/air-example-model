@@ -3,7 +3,7 @@ const {Observable, List} = window;
 export default function({advantages, some, ...args}) {
 
     //либо один обсерв, либо группу
-    return new Observable( function (emt) {
+    return new Observable( (emt) => {
 
         setTimeout( () => {
 
