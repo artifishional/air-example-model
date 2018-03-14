@@ -5,37 +5,48 @@ import Loader from "../loader"
  *
  * @param {Array} schema
  */
-export function normalize([key, ...elems]) {
+export function schemasNormalizer([key, ...elems]) {
     return [
         key,
         elems.length && !Array.isArray(elems[0]) ? elems.shift() : {},
-        ...elems.map( elem => normalize(elem) )
+        ...elems.map( elem => schemasNormalizer(elem) )
     ];
+}
+
+export function routeNormalizer(route) {
+    return route.split("/")
+        //an empty string includes
+        .filter(x => !".".includes(x))
+        .map(x => x[0] === "{" ? JSON.parse(x.replace(/[a-zA-Z]\w{1,}/g, x=> `"${x}"`)) : x);
 }
 
 export default class Advantages {
 
     constructor(
-        { parent, factory, loader, schema: [ key, {source, ...args}, ...advs ] },
-        _ = () => { throw `You can not instantiate this class directly. Use the static method "create" instead`}
+        { parent, factory, loader, schema: [ key, {sign = Advantages.sign, source, ...settings}, ...advs ] }
     ) {
         this.key = key;
+        this.sign = sign;
+        this.loader = loader;
         this.source = source;
         this.parent = parent;
-        this.item = [ ];
-        this.args = args;
-        this.loader = loader;
-        this.factory = factory;
-        this._build(advs);
+        this.item = advs.map( schema => factory.create( { factory, parent: this, schema, loader } ) );
+        this.settings = settings;
     }
 
-    obtain(...advs) {
-        //создаем пустой обсервер
-        return advs.map( ({route: [ key, ...route ]}) =>
-            key ? (key === ".." ? this.parent : this.item.find( ({key: _key}) => key === _key ))
-                    .obtain({ route }) :
-                this.loader.obtain({advantages: this, source: this.source, ...this.args})
-        );
+    /**
+     *
+     * @param route
+     * @returns {*}
+     * @example {route: "./../../state/{type: loto20_80}"}/
+     */
+    obtain({ route, ...args }) {
+        return this._obtain({ route: routeNormalizer(route), ...args });
+    }
+
+    _obtain({route: [ key, ...route ], ...args}) {
+        return key ? (key === ".." ? this.parent : this.item.find( this.sign(key) ))._obtain({ route, ...args }) :
+            this.loader.obtain({advantages: this, source: this.source, ...args});
     }
 
     _build(elems) {
@@ -47,10 +58,14 @@ export default class Advantages {
     static create({
         parent = null,
         loader = Loader.default,
-        factory = Factory.default,
+        factory,
         schema
     }) {
-        return new Advantages( {parent, schema: normalize(schema), loader}, 0 );
+        return factory.create( { factory, parent, schema: schemasNormalizer(schema), loader } );
+    }
+
+    static sign(sign) {
+        return ({key}) => sign === key;
     }
 
 }

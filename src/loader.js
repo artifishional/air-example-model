@@ -13,7 +13,7 @@ export default class Loader {
         }
         else {
             return new Observable( emt => {
-                eval(`import("${path}.js")`).then(module => {
+                eval(`import("${path}")`).then(module => {
                     this.modules.push({module, path});
                     return module[name]( {advantages, ...args} ).on( evt => emt.emit(evt));
                 } );

@@ -1,14 +1,18 @@
 import Advantages from "./index";
+import Container from "./container"
 
 export default class Factory {
 
-    create([,{type = "node"}]) {
-        if(type === "node") {
-            return Advantages();
+    create(options) {
+        const {schema: [, {type}] } = options;
+        if(!type) {
+            return new Advantages( options );
         }
         else if(type === "container") {
-            return new Container();
+            return new Container( options );
         }
     }
+
+    static default = new Factory()
 
 }

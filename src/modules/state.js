@@ -1,6 +1,6 @@
 const {Observable, List} = window;
 
-export default function({advantages, some, ...args}) {
+export function loto20_80({advantages, id}) {
 
     //либо один обсерв, либо группу
     return new Observable( (emt) => {
@@ -8,16 +8,10 @@ export default function({advantages, some, ...args}) {
         setTimeout( () => {
 
             emt.emit({type: "fight!", data: "After 20 years of work I am ready to fight!"});
-            emt.emit({type: "some", data: some});
+            emt.emit({type: "some", data: id});
 
         }, 2020 );
 
     } );
-
-}
-
-export function list({advantages, some, ...args}) {
-
-    return new List( advantages.obtain() );
 
 }
