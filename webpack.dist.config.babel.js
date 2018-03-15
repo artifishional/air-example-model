@@ -35,6 +35,9 @@ export default {
         new CopyWebpackPlugin([
             {from: './fill', to: './'},
             {from: './src/modules', to: './'},
+            {from: './node_modules/mocha/mocha.js', to: './'},
+            {from: './node_modules/chai/chai.js', to: './'},
+            {from: './node_modules/mocha/mocha.css', to: './'},
         ], {
             copyUnmodified: true
         }),
