@@ -45,8 +45,43 @@ export default class Advantages {
     }
 
     _obtain({route: [ key, ...route ], ...args}) {
-        return key ? (key === ".." ? this.parent : this.item.find( this.sign(key) ))._obtain({ route, ...args }) :
-            this.loader.obtain({advantages: this, source: this.source, ...args});
+        if(key) {
+            if(key === "..") {
+                return this.parent._obtain({ route, ...args });
+            }
+            else {
+                const node = this.item.find( this.sign(key) );
+                if(node) {
+                    return node._obtain({ route, ...args });
+                }
+                else {
+                    if(this.source.hasOwnProperty("path") && !this.item.length) {
+
+                        //вернуть временный обсервер
+                        return new Observable( function (emt) {
+
+                            //получить дополенение для схемы
+                            this.loader.get({source: this.source}, function (schema) {
+
+
+
+                                return this.obtain().on( emt.emit );
+
+
+
+                            });
+
+                        } );
+                    }
+                    else {
+                        throw "module not found";
+                    }
+                }
+            }
+        }
+        else {
+            return this.loader.obtain({advantages: this, source: this.source, ...args});
+        }
     }
 
     _build(elems) {

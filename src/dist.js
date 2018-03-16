@@ -50,7 +50,11 @@ const advantages = Advantages.create( { schema:
                     [ {name: "keno"}, {source: { path: "./keno.js"}} ],
                     [ {name: "lucky"}, {source: { path: "./lucky.js"}} ],
                 ],
-                [ "gs", { source: { path: "./switch.js" }} ]
+                [ "switch", { source: "./gs.js" } ],
+                [ "gs", {
+                    source: Switch,
+                    links: [{ name: "item", path: "../games" }, { name: "switch", path: "../games" }]
+                }]
             ],
         ],
         factory: Factory.default

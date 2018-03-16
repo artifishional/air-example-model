@@ -15,7 +15,12 @@ export default class Loader {
             return new Observable( emt => {
                 eval(`import("${path}")`).then(module => {
                     this.modules.push({module, path});
-                    return module[name]( {advantages, ...args} ).on( evt => emt.emit(evt));
+                    if(Array.isArray(module[name])) {
+                        return advantages.obtain(  );
+                    }
+                    else {
+                        return module[name]( {advantages, ...args} ).on( evt => emt.emit(evt));
+                    }
                 } );
             } );
         }
