@@ -1,4 +1,5 @@
 import {Observable} from "air-stream"
+import {concatPath} from "./utils";
 
 export default class Loader {
 
@@ -6,23 +7,19 @@ export default class Loader {
         this.modules = [];
     }
 
-    obtain({advantages, source: {path, name = "default"}, ...args}) {
+    obtain({relative, source: {path}}) {
         const exist = this.modules.find( ({ path: _path }) => path === _path );
         if(exist) {
-            return exist.module[name]( {advantages, ...args} );
+            return exist.module;
         }
         else {
-            return new Observable( emt => {
-                eval(`import("${path}")`).then(module => {
-                    this.modules.push({module, path});
-                    if(Array.isArray(module[name])) {
-                        return advantages.obtain(  );
-                    }
-                    else {
-                        return module[name]( {advantages, ...args} ).on( evt => emt.emit(evt));
-                    }
+            const module = new Observable( emt => {
+                eval(`import("${concatPath(relative, path)}")`).then(module => {
+                    emt.complete({data: module});
                 } );
             } );
+            this.modules.push({module, path});
+            return module;
         }
     }
 

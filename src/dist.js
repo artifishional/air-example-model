@@ -40,34 +40,18 @@ advantages.obtain([{ source: {path: "./advanced1"}, some: 77}])[0].on( function 
 */
 
 
-const advantages = Advantages.create( { schema:
-        [ "main",
-            [ "state", {type: "container"},
-                [ {type: "loto20_80"}, { source: {path: "./state.js", name: "loto20_80"} } ]
-            ],
-            [ "session",
-                [ "games", {type: "container"},
-                    [ {name: "keno"}, {source: { path: "./keno.js"}} ],
-                    [ {name: "lucky"}, {source: { path: "./lucky.js"}} ],
-                ],
-                [ "switch", { source: "./gs.js" } ],
-                [ "gs", {
-                    source: Switch,
-                    links: [{ name: "item", path: "../games" }, { name: "switch", path: "../games" }]
-                }]
-            ],
-        ],
-        factory: Factory.default
+const advantages = Advantages.create( {
+    schema: [ "main", {source: {path: "./modules/main.js"}} ],
+    factory: Factory.default
 } );
 
 
 setTimeout( () => {
 
 
-    const keno = advantages.obtain({route: "./session/games/{name: keno}", id: 45});
+    const keno = advantages.obtain({route: "./session/games/{name: lucky}/tickets", id: 45});
 
     keno.on( evt => console.log(evt) );
 
 } );
-
 
