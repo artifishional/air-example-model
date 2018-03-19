@@ -41,6 +41,6 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "air-stream": "^0.1.1"
+    "air-stream": "^0.2.0"
   }
 }

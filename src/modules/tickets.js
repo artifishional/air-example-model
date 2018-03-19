@@ -7,7 +7,7 @@ export default function({advantages, ...args}) {
 
         setTimeout( () => {
 
-            emt.emit({type: "ggwp", data: args});
+            emt.emit("ggwp");
 
         }, 2020 );
 

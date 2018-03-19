@@ -2,6 +2,7 @@ import path from "path"
 import GenerateJsonPlugin from "generate-json-webpack-plugin"
 import {name, version} from "./package.json"
 import CopyWebpackPlugin from "copy-webpack-plugin"
+import fs from "fs";
 
 const main = "main.js";
 
@@ -29,7 +30,23 @@ export default {
     devServer: {
         port: 8089,
         host: "0.0.0.0",
-        contentBase: './dist'
+        contentBase: './dist',
+        before(app) {
+            app.get('/modules/*', function(req, res) {
+
+                console.log(req.originalUrl);
+
+                fs.readFile("dist/modules/advanced1.js", "utf8", function(err, data){
+                    if(err) throw err;
+
+
+                    res.send(data);
+
+
+                });
+
+            });
+        }
     },
     plugins: [
         new CopyWebpackPlugin([
