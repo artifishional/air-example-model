@@ -30,7 +30,7 @@ export default {
     devServer: {
         port: 8089,
         host: "0.0.0.0",
-        contentBase: './dist',
+        contentBase: './dist',/*
         before(app) {
             app.get('/modules/*', function(req, res) {
 
@@ -46,7 +46,7 @@ export default {
                 });
 
             });
-        }
+        }*/
     },
     plugins: [
         new CopyWebpackPlugin([

@@ -18,6 +18,10 @@
     "url": "https://github.com/artifishional/air-example-model/issues"
   },
   "homepage": "https://github.com/artifishional/air-example-model#readme",
+
+  "m2units": {
+    "air-example-model": "git+ssh://git@github.com:artifishional/air-example-model.git#dev"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
@@ -41,6 +45,7 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "air-stream": "^0.2.0"
+    "air-stream": "^0.2.0",
+    "air-m2-builder": "git+ssh://git@github.com:artifishional/air-m2-builder.git#dev"
   }
 }
