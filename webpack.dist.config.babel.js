@@ -4,6 +4,10 @@ import {name, version} from "./package.json"
 import CopyWebpackPlugin from "copy-webpack-plugin"
 import fs from "fs";
 
+
+
+
+
 const main = "main.js";
 
 export default {
